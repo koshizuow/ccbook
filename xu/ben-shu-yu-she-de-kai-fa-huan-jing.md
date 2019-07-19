@@ -1,6 +1,6 @@
 # 本書的開發環境
 
-本書預設使用者使用64位元的 Linux 環境運行於 Intel 或是 AMD 等常見的PC平台上。請讀者根據所使用的發行版安裝 gcc 或是 make 等常見的開發工具。Ubuntu 的使用者可以根據以下指令安裝本書所使用到的工具：
+本書預設使用者使用64位元的 Linux 環境運行於 Intel 或是 AMD 等常見的 PC 平台上。請讀者根據所使用的發行版安裝 gcc 或是 make 等常見的開發工具。Ubuntu 的使用者可以根據以下指令安裝本書所使用到的工具：
 
 ```text
 $ sudo apt install gcc make git binutils libc6-dev
