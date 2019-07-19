@@ -6,7 +6,7 @@ description: 本章內容以原書為準，但章節格式為配合GitBook可能
 
 函數或者數學式、指令等等在本文中會以`main`、`foo=3`、`make`等寬字體的方式表示。
 
-複數行以上的程式碼，會如以下的格式用等寬字體放在框中表示（本翻譯版以GitBook的code block表示）：
+複數行以上的程式碼，會如以下的格式用等寬字體放在框中表示（本翻譯版以 GitBook 的 code block 表示）：
 
 ```c
 int main() {
