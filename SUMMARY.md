@@ -8,4 +8,5 @@
   * [結束前言之前](hajimeni/koramu.md)
 * [機械語言與組譯器](kikaigo_to_assembler/README.md)
   * [CPU 與記憶體](kikaigo_to_assembler/cpu_memory.md)
+  * [什麼是組譯器](kikaigo_to_assembler/assembler.md)
 
