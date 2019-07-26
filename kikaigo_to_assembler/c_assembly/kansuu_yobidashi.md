@@ -38,5 +38,16 @@ main:
 
 第一行是指定組合語言文法的指令。由`.global`開始的第二行，是指定`main`和`plus`這兩個可見於程式全體（program scope），非檔案範圍（file scope）的函式的組合語言指令。（譯註：有關 program scope 和 file scope，請參考C語言的相關資料。）現階段可以暫時忽略沒有關係。
 
-首先來看`main`。
+首先來看`main`。C程式看起來就是在`main`呼叫了`plus`函式；在組合語言部分，默認第一引數（argument）放在 RDI 暫存器、第二引數放在 RSI 暫存器，`main`的最初兩行便是設定這兩個暫存器的值。
+
+`call`就是呼叫函式的指令。具體來說`call`做了下列兩件事情：
+
+* 把`call`的下一行指令的位址 push 進堆疊中
+* 跳到`call`的引數所給的位址
+
+於是，`call`實行時，CPU 便會開始執行`plus`。
+
+接下來看`plus`。`plus`函式包含有三個指令。
+
+
 
