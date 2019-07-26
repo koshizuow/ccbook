@@ -12,4 +12,5 @@
   * [C程式和所對應的組合語言](kikaigo_to_assembler/c_assembly/README.md)
     * [簡單的範例](kikaigo_to_assembler/c_assembly/kantan_na_rei.md)
     * [包含呼叫函式的範例](kikaigo_to_assembler/c_assembly/kansuu_yobidashi.md)
+  * [本章小結](kikaigo_to_assembler/matome.md)
 
