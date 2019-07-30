@@ -13,5 +13,6 @@
     * [簡單的範例](kikaigo_to_assembler/c_assembly/kantan_na_rei.md)
     * [包含呼叫函式的範例](kikaigo_to_assembler/c_assembly/kansuu_yobidashi.md)
   * [本章小結](kikaigo_to_assembler/matome.md)
-* [創造計算機等級的語言](calculator_level_language.md)
+* [創造計算機等級的語言](calculator_level_language/README.md)
+  * [第1步：創造能編譯一個整數的語言](calculator_level_language/step1.md)
 
