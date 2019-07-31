@@ -46,3 +46,37 @@ mov %rax, -8(rbp, rcx, 4)    // AT&T
 這次我們要製作的編譯器為了容易閱讀採用 Intel 語法。Intel 指令集的說明也是使用 Intel 語法，所以也有著可以直接照手冊的說明來寫指令的好處。語法的功能 Intel 語法和 AT&T 語法都是一樣的，無論用哪種方法來寫，輸出的機械碼都一樣。
 {% endhint %}
 
+## 製作編譯器本體
+
+編譯器的輸入通常都是檔案，但現階段處理開關檔還稍嫌麻煩，我們直接從指令的第1引數來輸入程式碼。以下是從第1引數取值，再把其加到固定的組合語言指令裡的簡單C程式碼：
+
+{% code-tabs %}
+{% code-tabs-item title="9cc.c" %}
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv) {
+  if (argc != 2) {
+    fprintf(stderr, "引数の個数が正しくありません\n");
+    return 1;
+  }
+
+  printf(".intel_syntax noprefix\n");
+  printf(".global main\n");
+  printf("main:\n");
+  printf("  mov rax, %d\n", atoi(argv[1]));
+  printf("  ret\n");
+  return 0;
+}
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+建立一個名為 9cc 的資料夾，把上面的程式碼存成 9cc.c 這個檔案放在資料夾內。然後照以下的指令執行 9cc 確認其運作：
+
+```text
+$ gcc -o 9cc 9cc.c
+$ ./9cc 123 > tmp.s
+```
+
