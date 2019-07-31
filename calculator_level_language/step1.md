@@ -58,7 +58,7 @@ mov %rax, -8(rbp, rcx, 4)    // AT&T
 
 int main(int argc, char **argv) {
   if (argc != 2) {
-    fprintf(stderr, "引数の個数が正しくありません\n");
+    fprintf(stderr, "引數數量錯誤\n");
     return 1;
   }
 
