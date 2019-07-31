@@ -27,5 +27,22 @@ main:
 **小知識：Intel 語法與 AT&T 語法**
 
 本書所用的 Intel 語法以外，還有 AT&T 語法這個以 Unix 為中心廣為人知的組合語言寫法。gcc 或 objdump 預設都是輸出 AT&T 語法的組合語言。
+
+AT&T 語法的結果是放在第二引數，也就是兩個引數要反過來寫。暫存器需要加上`%`引用符號寫成像`%rax`。數值則要加上`$`寫成像`$42`。
+
+除此之外，參照記憶體也有其獨特的寫法，是用`()`取代`[]`。參考兩者的對比的範例：
+
+```text
+mov rbp, rsp   // Intel
+mov %rsp, %rbp // AT&T
+
+mov rax, 8     // Intel
+mov $8, %rax   // AT&T
+
+mov [rbp + rcx * 4 - 8], rax // Intel
+mov %rax, -8(rbp, rcx, 4)    // AT&T
+```
+
+這次我們要製作的編譯器為了容易閱讀採用 Intel 語法。Intel 指令集的說明也是使用 Intel 語法，所以也有著可以直接照手冊的說明來寫指令的好處。語法的功能 Intel 語法和 AT&T 語法都是一樣的，無論用哪種方法來寫，輸出的機械碼都一樣。
 {% endhint %}
 
