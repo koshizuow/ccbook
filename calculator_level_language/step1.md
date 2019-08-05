@@ -112,6 +112,8 @@ $ echo $?
 
 以下就是名為 test.sh 的測試用 shell 腳本。shell 函式`try`會從引數中把輸入值和預期的結果兩個引數抓下來、把9cc的結果拿去組譯、把結果和期待的值做比較。在這個 shell 腳本中，定義完`try`之後，會用0和42兩個值來確認是否有正常編譯：
 
+{% code-tabs %}
+{% code-tabs-item title="test.sh" %}
 ```bash
 #!/bin/bash
 try() {
@@ -136,6 +138,53 @@ try 42 42
 
 echo OK
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+請把上述內容存成 test.sh，並下`chmod a+x test.sh`來追加執行權限，然後實際執行 test.sh 看看。如果沒有出現什麼錯誤的話，如下最後 test.sh 會顯示 OK 並結束：
+
+```text
+$ ./test.sh
+0 => 0
+42 => 42
+OK
+```
+
+如果有發生錯誤的話，test.sh 不會顯示 OK，而是會顯示失敗的測試預期值和實際上的結果：
+
+```text
+$ ./test.sh
+0 => 0
+42 expected, but got 123
+```
+
+想要用測試腳本來除錯的時候，下`bash -x`來執行 test.sh 看看。加上`-x`參數時，`bash`會顯示如下的執行紀錄：
+
+```text
+$ bash -x test.sh
++ try 0 0
++ expected=0
++ input=0
++ gcc -o 9cc 9cc.c
++ ./9cc 0
++ gcc -o tmp tmp.s
++ ./tmp
++ actual=0
++ '[' 0 '!=' 0 ']'
++ try 42 42
++ expected=42
++ input=42
++ gcc -o 9cc 9cc.c
++ ./9cc 42
++ gcc -o tmp tmp.s
++ ./tmp
++ actual=42
++ '[' 42 '!=' 42 ']'
++ echo OK
+OK
+```
+
+我們在本書所使用的「測試框架」就只是這樣一個 shell 腳本而已。這腳本和 JUnit 等正式的測試框架比起來看起來可能是過於簡單了，但是就是這個簡單的腳本，和 9cc 本體的簡單程度才能取得平衡，所以簡單點才剛剛好。單元測試的重點，其實就只是自己執行自己寫的程式碼、自動化比較執行結果而已。所以不要想太難，重要的是執行測試。
 
 
 
