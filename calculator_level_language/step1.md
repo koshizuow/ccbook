@@ -235,5 +235,18 @@ tmp*
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
+第一次使用 git 的讀者們，請告訴 git 你的名字和 email 信箱吧，你跟 git 講的名字和信箱會顯示在 git commit 上。底下是以筆者的名字和信箱設定的範例，請讀者設定自己的名字和信箱：
 
+```text
+$ git config --global user.name "Rui Ueyama"
+$ git config --global user.email "ruiu@cs.stanford.edu"
+```
+
+要 commit 到 git 上，首先得先把變更的檔案以`git add`加入。因為這次是最初的 commit，首先先以`git init`新增一個 repository，然後再把至今為止所寫的所有檔案都以`git add`加入：
+
+```text
+$ git init
+Initialized empty Git repository in /home/ruiu/9cc
+$ git add 9cc.c test.sh Makefile .gitignore
+```
 
