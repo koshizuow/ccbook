@@ -250,3 +250,43 @@ Initialized empty Git repository in /home/ruiu/9cc
 $ git add 9cc.c test.sh Makefile .gitignore
 ```
 
+然後，執行`git commit`：
+
+```text
+$ git commit -m "做出可以編譯一個整數的編譯器"
+```
+
+`-m`是用來指定 commit message 的參數。沒有加上`-m`的話，git 會啟動編輯器。執行`git log -p`來確認 commit 有成功：
+
+```text
+$ git log -p
+commit 0942e68a98a048503eadfee46add3b8b9c7ae8b1 (HEAD -> master)
+Author: Rui Ueyama <ruiu@cs.stanford.edu>
+Date:   Sat Aug 4 23:12:31 2018 +0000
+
+    做出可以編譯一個整數的編譯器
+
+diff --git a/9cc.c b/9cc.c
+new file mode 100644
+index 0000000..e6e4599
+--- /dev/null
++++ b/9cc.c
+@@ -0,0 +1,16 @@
++#include <stdio.h>
++#include <stdlib.h>
++
++int main(int argc, char **argv) {
++  if (argc != 2) {
+...
+```
+
+最後，把做好的 git repository 上傳到 Github 上吧。並沒有一定要上傳到 GitHub 的必要，但也沒有不上傳到 GitHub 的理由，但上傳到 GitHub 可以作為備份。要上傳到 GitHub 的話，先新增一個 repository（範例為以 rui314 帳號新增一個叫 9cc 的 repository），然後依下列指令把該 repository 作為 remote repository 加入：
+
+```text
+$ git remote add origin git@github.com:rui314/9cc.git
+```
+
+然後，執行`git push`的話，就會把手邊的 repository 給 push 到 GitHub 上。執行`git push`之後，請打開瀏覽器看看 GitHub 上你的程式碼有沒有成功上傳。
+
+到此為止第1步的編譯器就做完了。這一步的編譯器以編譯器來說是一個簡單過頭的程式，但包含了所有充份作為一個編譯器的要素。雖然讀者可能還無法相信，但今後我們會對這個編譯器追加功能，讓其成長為成熟的C編譯器。首先請好好品味一下所完成的這一步吧。
+
