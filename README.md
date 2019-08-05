@@ -4,7 +4,7 @@
 
 譯者受益於此書甚多，希望可以分享給中文讀者們看，讓更多像我一樣想要學習低階系統運作的朋友、想要學習編譯器運作但不得其門而入的朋友一個機會。 
 
-譯者自己也還在讀此書，不嫌棄的話可以過目一下譯者的GitHub給些建議：[https://github.com/koshizuow/cc](https://github.com/koshizuow/cc)
+譯者自己也還在讀此書，不嫌棄的話可以過目一下譯者的 GitHub 給些建議：[https://github.com/koshizuow/cc](https://github.com/koshizuow/cc)
 
 #### 關於譯者
 
