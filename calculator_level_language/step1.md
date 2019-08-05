@@ -222,5 +222,18 @@ clean:
 
 用 git 做版本管理的只有大家親手所寫的檔案。執行 9cc 所輸出生成的檔案，只要重新執行指令就會再次產生，不需要列為版本管理的對象。反而，如果把這些檔案列入的話，每一個 commit 會有太多不必要的變更，所以有必要從版本管理中除去，不要讓這些檔案進到 repository 裡。
 
+git 可以在名為 .gitignore 的檔案中，寫要被排除在版本管理之外的檔名格式。在 9cc.c 的同一個目錄底下把地下的內容存成 .gitignore 來讓 git 能無視暫存檔案或編輯器的備份檔案：
+
+{% code-tabs %}
+{% code-tabs-item title=".gitignore" %}
+```text
+*~
+*.o
+tmp*
+9cc
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
 
 
