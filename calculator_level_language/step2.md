@@ -81,5 +81,40 @@ int main(int argc, char **argv) {
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-程式變得稍長了些，但前半部份和`ret`那行都是和之前一樣的。中間追加了把項讀入的程式碼。這是不是只讀進一個數字的程式，所以在讀進數字後，需要知道要讀到哪裡為止。如果用`atoi`的話，因為`atoi`不會回傳所讀進的文字數目，所以用`atoi`會不知道要從哪裡開始讀取項。因此這邊使用C語言標準的`strtol`函式來實作。
+程式變得稍長了些，但前半部份和`ret`那行都是和之前一樣的。中間追加了把項讀入的程式碼。這是不是只讀進1個數字的程式，所以在讀進數字後，需要知道要讀到哪裡為止。如果用`atoi`的話，因為`atoi`不會回傳所讀進的文字數目，所以用`atoi`會不知道要從哪裡開始讀取項。因此這邊使用C語言標準的`strtol`函式來實作。
+
+`strtol`函式在讀進數值之後，會更新第2引數的指標位置，指向讀進的最後一個文字的下一個文字。於是，在讀進1個數值之後，如果下一個文字是`+`或`-`，`p`就應該是指向該文字。上述程式就是利用這個功能，在`while`迴圈中逐項讀取，每讀到1個項就輸出1行組合語言指令。
+
+接下來趕緊來試試看改造版的編譯器吧。一更新 9cc.c，只要下`make`指令就可以產生出新的 9cc 執行檔。以下為執行的範例：
+
+```text
+$ make
+$ ./9cc '5+20-4'
+.intel_syntax noprefix
+.global main
+main:
+  mov rax, 5
+  add rax, 20
+  sub rax, 4
+  ret
+```
+
+看來有順利輸出組合語言指令。為了測試新的功能，我們在 test.sh 加上新的1行測試：
+
+{% code-tabs %}
+{% code-tabs-item title="test.sh" %}
+```bash
+try 21 "5+20-4"
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+完成到這裡，把至今為止的變更 commit 到 git 吧。執行以下指令來 commit：
+
+```text
+$ git add test.sh 9cc.c
+$ git commit
+```
+
+執行`git commit`會開啟編輯器，請輸入「新增加法和減法」後儲存、關閉編輯器程式。接著請輸入 `git log -p`指令確認看看 commit 有順利完成。最後，執行`git push`把 commit 給 push 上 GitHub 後，這一步就完成了！
 
