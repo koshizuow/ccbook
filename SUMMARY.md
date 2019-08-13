@@ -16,5 +16,5 @@
 * [創造計算機等級的語言](calculator_level_language/README.md)
   * [第1步：創造能編譯1個整數的語言](calculator_level_language/step1.md)
   * [第2步：製作可以算加減法的編譯器](calculator_level_language/step2.md)
-  * [第3步：加入標記器（tokenizer）](calculator_level_language/step3.md)
+  * [第3步：加入標記解析器（tokenizer）](calculator_level_language/step3.md)
 
