@@ -11,5 +11,157 @@ $ ./9cc '5 - 3' > tmp.s
 
 像日文或英文一樣，數學算式或是程式語言也可以想成是由一列一列的單詞所構成。舉例來說，`5+20-4`可以想成是`5`、`+`、`20`、`-`、`4`這5個單詞所組成。這些「單詞」被稱作「標記」（token）。標記之間的空白符號是為了分開標記，並不是單詞的一部份；所以，把文字列分割成標記列時自然就需要把空白符號拿掉。把文字列分割成標記列的動作就叫作「標記化」（tokenize）。
 
+把文字列分割成標記列還有其他好處。在把算式分成標記的同時，可以將其分類並賦予型態。舉例來說，`+`或`-`就如字面上是「+」和「-」的符號，而`123`的文字列則是代表123這個數值。在標記化的同時，不是只單純處理文字列的分割，而是要一一解釋這些標記，並且得考慮是在什麼狀況下使用這些標記。
 
+現在處理加減法算式的文法中，標記有「+」、「-」和數值3種型態。考慮到實作的方便性，定義代表標記列結束的特殊型態（就像文字列以`'\0'`結束）可以讓程式更簡潔。這邊我們定義連結串列（linked list），用指標把標記連結起來，就可以處理任意長度的輸入。
+
+以下是稍微變得長了點的程式碼，加入了標記器的改良版編譯器：
+
+{% code-tabs %}
+{% code-tabs-item title="9cc.c" %}
+```c
+#include <ctype.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// 標記種類
+typedef enum {
+  TK_RESERVED, // 符號
+  TK_NUM,      // 整數標記
+  TK_EOF,      // 代表輸入結束的標記
+} TokenKind;
+
+typedef struct Token Token;
+
+// 標記型態
+struct Token {
+  TokenKind kind; // 標記的型態
+  Token *next;    // 下一個輸入標記
+  int val;        // kind為TK_NUM時的數值
+  char *str;      // 標記文字列
+};
+
+// 正在處理的標記
+Token *token;
+
+// 處理錯誤的函數
+// 取和printf相同的引數
+void error(char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+  vfprintf(stderr, fmt, ap);
+  fprintf(stderr, "\n");
+  exit(1);
+}
+
+// 下一個標記為符合預期的符號時，讀入一個標記並往下繼續，
+// 回傳true。否則回傳false。
+bool consume(char op) {
+  if (token->kind != TK_RESERVED || token->str[0] != op)
+    return false;
+  token = token->next;
+  return true;
+}
+
+// 下一個標記為符合預期的符號時，讀入一個標記並往下繼續。
+// 否則警告為錯誤。
+void expect(char op) {
+  if (token->kind != TK_RESERVED || token->str[0] != op)
+    error("不是'%c'", op);
+  token = token->next;
+}
+
+// 下一個標記為數值時，讀入一個標記並往下繼續，回傳該數值。
+// 否則警告為錯誤。
+int expect_number() {
+  if (token->kind != TK_NUM)
+    error("不是數值");
+  int val = token->val;
+  token = token->next;
+  return val;
+}
+
+bool at_eof() {
+  return token->kind == TK_EOF;
+}
+
+// 建立一個新的標記，連結到cur
+Token *new_token(TokenKind kind, Token *cur, char *str) {
+  Token *tok = calloc(1, sizeof(Token));
+  tok->kind = kind;
+  tok->str = str;
+  cur->next = tok;
+  return tok;
+}
+
+// 將輸入文字列p標記化並回傳標記列
+Token *tokenize(char *p) {
+  Token head;
+  head.next = NULL;
+  Token *cur = &head;
+
+  while (*p) {
+    // 跳過空白符號
+    if (isspace(*p)) {
+      p++;
+      continue;
+    }
+
+    if (*p == '+' || *p == '-') {
+      cur = new_token(TK_RESERVED, cur, p++);
+      continue;
+    }
+
+    if (isdigit(*p)) {
+      cur = new_token(TK_NUM, cur, p);
+      cur->val = strtol(p, &p, 10);
+      continue;
+    }
+
+    error("無法標記化");
+  }
+
+  new_token(TK_EOF, cur, p);
+  return head.next;
+}
+
+int main(int argc, char **argv) {
+  if (argc != 2) {
+    error("引數數量錯誤");
+    return 1;
+  }
+
+  // 標記化
+  token = tokenize(argv[1]);
+
+  // 輸出前半部份組合語言指令
+  printf(".intel_syntax noprefix\n");
+  printf(".global main\n");
+  printf("main:\n");
+
+  // 確認算式必須以數開頭
+  // 輸出最初的mov指令
+  printf("  mov rax, %d\n", expect_number());
+
+  // 一邊消耗`+ <數>`或`- <數>`的標記，
+  // 並輸出組合語言指令
+  while (!at_eof()) {
+    if (consume('+')) {
+      printf("  add rax, %d\n", expect_number());
+      continue;
+    }
+
+    expect('-');
+    printf("  sub rax, %d\n", expect_number());
+  }
+
+  printf("  ret\n");
+  return 0;
+}
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
