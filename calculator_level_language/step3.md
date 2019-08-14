@@ -179,7 +179,6 @@ int main(int argc, char **argv) {
 {% code-tabs %}
 {% code-tabs-item title="test.sh" %}
 ```bash
-
 try 41 " 12 + 34 - 5 "
 ```
 {% endcode-tabs-item %}

@@ -11,7 +11,7 @@ macOS 雖然與 Linux 有相當程度的相容性，但並非完全相容（具�
 Windows 和 Linux 的組合語言也並不相容。但是 Windows 10可以讓 Linux 像一個應用程式一樣運作在Windows 上，可以利用該環境在 Windows 上進行開發，名稱是 Windows Subsystem for Linux \(WSL\)。想要在 Windows 上實作本書的內容的話，請安裝 WSL 並在其中進行開發。
 
 {% hint style="info" %}
-**小知識：交叉編譯器（Cross compiler）**
+#### 小知識：交叉編譯器（Cross compiler）
 
 執行編譯器的機器被稱之為「host」，而執行編譯器產出的程式碼的機器被稱之為「target」。本書的兩者都是64位元的 Linux 環境，但其實 host 和 target 不一定要是一樣的。
 
