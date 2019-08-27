@@ -24,4 +24,5 @@
     * [以 BNF 描述生成規則](calculator_level_language/recursive_descendent_parsing/bnf.md)
     * [簡單的生成規則](calculator_level_language/recursive_descendent_parsing/simaple_production_rule.md)
     * [以生成規則描述運算子的優先順序](calculator_level_language/recursive_descendent_parsing/production_rule_operator_order.md)
+    * [包含遞迴的生成規則](calculator_level_language/recursive_descendent_parsing/recursive_production_rule.md)
 
