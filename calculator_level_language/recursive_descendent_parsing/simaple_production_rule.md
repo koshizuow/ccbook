@@ -38,11 +38,11 @@ expr → num "-" num "+" num
 
 這樣的展開順序不只可以用箭頭表達，也可以用樹來表示。上列算式的語法樹如以下所示：
 
-![1&#x7684;&#x8A9E;&#x6CD5;&#x6A39;](../../.gitbook/assets/index%20%289%29.svg)
+![1&#x7684;&#x8A9E;&#x6CD5;&#x6A39;](../../.gitbook/assets/index%20%2810%29.svg)
 
 ![10+5&#x7684;&#x8A9E;&#x6CD5;&#x6A39;](../../.gitbook/assets/index%20%281%29.svg)
 
-![42-20+2&#x7684;&#x8A9E;&#x6CD5;&#x6A39;](../../.gitbook/assets/index%20%288%29.svg)
+![42-20+2&#x7684;&#x8A9E;&#x6CD5;&#x6A39;](../../.gitbook/assets/index%20%289%29.svg)
 
 用樹結構來表示，就可以很清楚看出哪個非終端符號會展開成什麼樣子。
 
