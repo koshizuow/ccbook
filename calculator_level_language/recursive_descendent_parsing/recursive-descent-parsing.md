@@ -6,22 +6,16 @@
 
 舉例來說想想四則運算的文法。底下是剛剛的四則運算文法：
 
-{% code-tabs %}
-{% code-tabs-item title="四則運算的生成規則" %}
 ```text
 expr = mul ("+" mul | "-" mul)*
 mul  = term ("*" term | "/" term)*
 term = num | "(" expr ")"
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 用遞迴下降分析法來寫分析器的基本策略是，把非終端符號和函式一一對應。於是，分析器有`expr`、`mul`、`num`這3個函式。這幾個函式，會負責解析和它們名字一樣規則的標記列。
 
 我們來考慮具體的程式碼。給分析器的輸入是標記列。因為我們想要用分析器建回抽象語法樹，我們要來定義抽象語法樹結點（node）的型態。底下程式碼描述結點的型態：
 
-{% code-tabs %}
-{% code-tabs-item title="parser code" %}
 ```c
 // 抽象語法樹結點的種類
 typedef enum {
@@ -42,10 +36,44 @@ struct Node {
   int val;       // kind只在ND_NUM時使用
 };
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 `lhs`和`rhs`代表 left-hand side 和 right-hand side，也就是左邊和右邊的意思。
+
+接下來開始定義建立新結點的函式。在這個文法下，四則運算分為有左邊和右邊的2個運算子、和數值這兩種種類，我們配合這兩種種類的運算準備兩個函式：
+
+```c
+Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
+  Node *node = calloc(1, sizeof(Node));
+  node->kind = kind;
+  node->lhs = lhs;
+  node->rhs = rhs;
+  return node;
+}
+
+Node *new_node_num(int val) {
+  Node *node = calloc(1, sizeof(Node));
+  node->kind = ND_NUM;
+  node->val = val;
+  return node;
+}
+```
+
+再來就用這些函數和資料結構來寫我們的分析器吧。`+`和`-`為左結合的運算子。底下為分析左結合演算子的函式的範本：
+
+```c
+Node *expr() {
+  Node *node = mul();
+
+  for (;;) {
+    if (consume('+'))
+      node = new_node(ND_ADD, node, mul());
+    else if (consume('-'))
+      node = new_node(ND_SUB, node, mul());
+    else
+      return node;
+  }
+}
+```
 
 
 
