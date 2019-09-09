@@ -50,5 +50,17 @@ try 4 "(3+5)/2"
 
 {% hint style="info" %}
 #### 小知識：9cc的記憶體管理
+
+本書的讀者讀到這邊，或許會覺得「這個編譯器的記憶體管理到底是怎麼搞的」而感到不可思議。至此為止，我們使用了 `calloc`（與`malloc`類似）但是沒有呼叫`free`。也就是我們並沒有釋放分配的記憶體空間。就算是偷懶，這也太超過了吧？
+
+實際上，這個叫「不做記憶體管理的記憶體管理方針」，是筆者在多方妥協之下，刻意選擇的設計。用這種設計有很多的好處：
+
+首先，不釋放記憶體，就可以像有垃圾回收（garbage collection）機制的程式語言一樣寫程式。也因此，不只是不用寫記憶體管理的程式碼，更可以從根本斷絕手動記憶體管理的難解臭蟲。
+
+再者，因不呼叫`free`而發生問題，如果是在一般PC執行，實際上不可能的。編譯器是讀取1個C語言檔案後輸出組合語言的短命程式，程式結束的時候分配的記憶體空間會被OS自動釋放。於是，問題就只在於總計共使用多少記憶體空間而已，而筆者實測編譯一個頗大的C語言檔案也不過就使用100 MiB 左右而已。所以不呼叫free式很實務且有效的策略。舉例來說，D語言編譯器 DMD 也根據同樣的想法，採用了做`malloc`但是不呼叫`free`的策略。（註）
 {% endhint %}
+
+> [http://www.drdobbs.com/cpp/increasing-compiler-speed-by-over-75/240158941](http://www.drdobbs.com/cpp/increasing-compiler-speed-by-over-75/240158941) （連結已失效）
+>
+> * DMD does memory allocation in a bit of a sneaky way. Since compilers are short-lived programs, and speed is of the essence, DMD just mallocs away, and never frees.
 
