@@ -31,4 +31,5 @@
     * [編譯成堆疊機指令](calculator_level_language/stack_machine/compile_to_stack_machine.md)
     * [以x86-64實作堆疊機的方法](calculator_level_language/stack_machine/x86-64_stack_machine.md)
   * [第5步：製作可進行四則運算的編譯器](calculator_level_language/step5.md)
+  * [第6步：單項加與單項減](calculator_level_language/step6.md)
 
