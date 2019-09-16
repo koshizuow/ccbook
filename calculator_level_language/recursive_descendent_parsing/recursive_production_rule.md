@@ -13,7 +13,7 @@ term = num | "(" expr ")"
 
 底下是`1*2`的語法樹：
 
-![1\*2&#x7684;&#x8A9E;&#x6CD5;&#x6A39;](../../.gitbook/assets/index%20%2810%29.svg)
+![1\*2&#x7684;&#x8A9E;&#x6CD5;&#x6A39;](../../.gitbook/assets/index%20%2811%29.svg)
 
 接下來的樹是`1*(2+3)`的語法樹：
 
