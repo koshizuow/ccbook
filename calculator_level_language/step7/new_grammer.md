@@ -26,6 +26,6 @@ term       = num | "(" expr ")"
 除此之外，為了以`equality`表示算式整體，把`expr`和`equality`分離。也可以把`equality`的右邊直接寫在`expr`，但是上述的寫法應該比較好讀。
 
 {% hint style="info" %}
-#### 小知識：單純冗長的程式碼和進階簡潔的程式碼
+#### 小知識：單純但冗長的程式碼和進階的簡潔程式碼
 {% endhint %}
 
