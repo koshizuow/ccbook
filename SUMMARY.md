@@ -34,4 +34,5 @@
   * [第6步：單項加與單項減](calculator_level_language/step6.md)
   * [第7步：比較運算子](calculator_level_language/step7/README.md)
     * [修改標記解析器](calculator_level_language/step7/modify_tokenizer.md)
+    * [新的文法](calculator_level_language/step7/new_grammer.md)
 
