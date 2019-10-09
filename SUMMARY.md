@@ -36,4 +36,5 @@
     * [修改標記解析器](calculator_level_language/step7/modify_tokenizer.md)
     * [新的文法](calculator_level_language/step7/new_grammer.md)
     * [產生組合語言指令](calculator_level_language/step7/generate_assembly.md)
+* [分離編譯與連結](separate_compile_linking.md)
 
