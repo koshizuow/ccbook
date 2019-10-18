@@ -41,5 +41,6 @@
     * [分離編譯與其必要性](separate_compile_linking/separate_compilation/to_separate_compile.md)
     * [標頭檔的必要性與其內容](separate_compile_linking/separate_compilation/header_file.md)
     * [連結錯誤](separate_compile_linking/separate_compilation/link_error.md)
+    * [全域變數的宣告與定義](separate_compile_linking/separate_compilation/global_declare_define.md)
   * [第8步：分割檔案與修改 Makefile](separate_compile_linking/step8.md)
 
