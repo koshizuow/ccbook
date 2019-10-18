@@ -60,5 +60,13 @@ int foo;
 
 {% hint style="info" %}
 #### 小知識：連結器的歷史
+
+連結器能把複數片斷的機械語言寫成的處理流程統整成1個程式的功能，在電腦發展的初期就已經被需要。有紀錄顯示（註）1947年John Mauchly（最早的數位電腦，ENIAC的計劃領導人），就已經有把從磁帶讀進的子程式做重新定位，統整成1個程式的程式。
+
+就算在最早期的電腦，就希望汎用的子處理流程可以只寫1次，然後可以使用在各式各樣的程式中；而要做到這件事，就需要可以組合程式片斷生成可執行程式的連結器。在1947年，還沒有組合語言，是直接寫機械碼的年代，所以其實對程式設計師來說，連結器這個程式的需求比組合語言還要更為優先。
 {% endhint %}
+
+> Linkers and Loaders, ISBN 978-1558604964, John R. Levine \(1999\) 1.2章
+>
+> > Perhaps surprisingly, these two basic linker functions — relocation and library search — appear to predate even assemblers, as Mauchly expected both the program and subprograms to be written in machine language.
 
