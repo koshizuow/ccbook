@@ -43,3 +43,7 @@ Makefile 中，1條規則是由以冒號分隔的行，和以 tab 縮排的0行�
 
 `OBJS`的右側使用變數的替換規則，生成把`SRCS`中的`.c`換成`.o`的值。`SRCS`為`main.c parse.c codegen.c container.c`，所以`OBJS`會是`main.o parse.o codegen.o container.o`。
 
+有這些認識之後，我們來追看看執行`make 9cc`會發生什麼事。`make`會想要生成引數所指定的目標，所以生出 9cc 這個檔案就是指令的最終目標（如果沒有引數就會是最初的目標，所以在此處不指定`9cc`也沒關係）。`make`會確認相依性，看有沒有少檔案，或是檔案太舊都會執行指令編出檔案。
+
+
+
