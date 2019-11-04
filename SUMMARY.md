@@ -46,5 +46,6 @@
     * [分割檔案](separate_compile_linking/step8/split_files.md)
     * [修改 Makefile](separate_compile_linking/step8/modify_makefile.md)
 * [函式與區域變數](function_local_variable/README.md)
-  * [第9步：1個字的區域變數](function_local_variable/step9.md)
+  * [第9步：1個字的區域變數](function_local_variable/step9/README.md)
+    * [堆疊上的變數空間](function_local_variable/step9/variable_area_on_stack.md)
 
