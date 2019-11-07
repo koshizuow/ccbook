@@ -3,9 +3,7 @@
 在分離編譯中，編譯器只看見程式的一部份程式碼，但編譯器並不能編譯任意的程式碼片段。舉例來說，我們考慮底下的程式碼：
 
 ```c
-void print_bar(struct Foo *obj) {
-  printf("%d\n", obj->bar);
-}
+void print_bar(struct Foo *obj) {  printf("%d\n", obj->bar);}
 ```
 
 上述的程式碼中，只要知道`Foo`的資料結構，就能輸出對應這段程式碼的組合語言指令，但若不知道的話就無法編譯。

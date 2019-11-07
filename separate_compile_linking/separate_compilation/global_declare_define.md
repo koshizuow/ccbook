@@ -13,13 +13,7 @@ char main[] = "\x48\xc7\xc0\x2a\x00\x00\x00\xc3";
 把上述的C程式碼存成 foo.c 後編譯，使用`objdump`確認看看其內容吧。`objdump`預設是顯示為16進制，加上`-D`參數就可以強制把檔案作為程式反組譯：
 
 ```text
-$ gcc -c foo.c
-$ objdump -D -M intel foo.o
-Disassembly of section .data:
-
-0000000000000000 <main>:
-   0:   48 c7 c0 2a 00 00 00    mov    rax,0x2a
-   7:   c3                      ret
+$ gcc -c foo.c$ objdump -D -M intel foo.oDisassembly of section .data:0000000000000000 <main>:   0:   48 c7 c0 2a 00 00 00    mov    rax,0x2a   7:   c3                      ret
 ```
 
 預設把資料放在不可執行區域的作法，可以在編譯時加上`-Wl,--omagic`參數來變更。現在來使用這個參數生成可執行檔：（譯註：譯者在 Windows 10下使用 WSL 的 Debian 無法成功完成此操作，請使用安裝 Linux 發行版的電腦或是虛擬機器來操作。）
@@ -33,9 +27,7 @@ gcc -static -Wl,--omagic -o foo foo.o
 執行看看生成出來的檔案吧：
 
 ```text
-$ ./foo
-$ echo $?
-42
+$ ./foo$ echo $?42
 ```
 
 如上所述，正確傳回了42。`main`這個全域變數的內容被作為程式執行了。

@@ -9,20 +9,7 @@
 讀者可能以前也在別的地方看過組合語言也說不定。如果還沒見過的話，現在正好是認識一下組合語言的好機會。用`objdump`指令，隨便找一個執行檔反組譯看看，看一下該執行檔機械語言轉回組合語言的結果吧。以下是`ls`指令反組譯的結果：
 
 ```text
-$ objdump -d -M intel /bin/ls
-/bin/ls:     file format elf64-x86-64
-
-Disassembly of section .init:
-
-0000000000003d58 <_init@@Base>:
-  3d58:  48 83 ec 08           sub    rsp,0x8
-  3d5c:  48 8b 05 7d b9 21 00  mov    rax,QWORD PTR [rip+0x21b97d]
-  3d63:  48 85 c0              test   rax,rax
-  3d66:  74 02                 je     366a <_init@@Base+0x12>
-  3d68:  ff d0                 call   rax
-  3d6a:  48 83 c4 08           add    rsp,0x8
-  3d6e:  c3                    ret
-...
+$ objdump -d -M intel /bin/ls/bin/ls:     file format elf64-x86-64Disassembly of section .init:0000000000003d58 <_init@@Base>:  3d58:  48 83 ec 08           sub    rsp,0x8  3d5c:  48 8b 05 7d b9 21 00  mov    rax,QWORD PTR [rip+0x21b97d]  3d63:  48 85 c0              test   rax,rax  3d66:  74 02                 je     366a <_init@@Base+0x12>  3d68:  ff d0                 call   rax  3d6a:  48 83 c4 08           add    rsp,0x8  3d6e:  c3                    ret...
 ```
 
 在筆者的環境下，`ls`指令約含有2萬個以上的機械語言指令，反組譯就會變成大概有2萬行篇幅的怪物，上面只放了開頭的一部份。

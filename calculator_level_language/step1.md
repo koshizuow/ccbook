@@ -7,12 +7,7 @@
 在這一步所做出的編譯器，會從輸入讀入1個整數，然後輸出將其作為結束碼的組合語言。也就是輸入是像42這樣的整數，讀到之後編譯器會輸出下面這樣的組合語言：
 
 ```text
-.intel_syntax noprefix
-.global main
-
-main:
-        mov rax, 42
-        ret
+.intel_syntax noprefix.global mainmain:        mov rax, 42        ret
 ```
 
 `.intel_syntax noprefix`代表的是在眾多組合語言的寫法中，指定本書所使用的 Intel 語法的組合語言指令。這次製作的編譯器在第一行請務必加上這行。其他行的指令的說明請參照前一章的介紹。
@@ -33,14 +28,7 @@ AT&T 語法的結果是放在第二引數，也就是兩個引數要反過來寫
 除此之外，參照記憶體也有其獨特的寫法，是用`()`取代`[]`。參考兩者的對比的範例：
 
 ```text
-mov rbp, rsp   // Intel
-mov %rsp, %rbp // AT&T
-
-mov rax, 8     // Intel
-mov $8, %rax   // AT&T
-
-mov [rbp + rcx * 4 - 8], rax // Intel
-mov %rax, -8(rbp, rcx, 4)    // AT&T
+mov rbp, rsp   // Intelmov %rsp, %rbp // AT&Tmov rax, 8     // Intelmov $8, %rax   // AT&Tmov [rbp + rcx * 4 - 8], rax // Intelmov %rax, -8(rbp, rcx, 4)    // AT&T
 ```
 
 這次我們要製作的編譯器為了容易閱讀採用 Intel 語法。Intel 指令集的說明也是使用 Intel 語法，所以也有著可以直接照手冊的說明來寫指令的好處。語法的功能 Intel 語法和 AT&T 語法都是一樣的，無論用哪種方法來寫，輸出的機械碼都一樣。
@@ -50,45 +38,24 @@ mov %rax, -8(rbp, rcx, 4)    // AT&T
 
 編譯器的輸入通常都是檔案，但現階段處理開關檔還稍嫌麻煩，我們直接從指令的第1引數來輸入程式碼。以下是從第1引數取值，再把其加到固定的組合語言指令裡的簡單C程式碼：
 
-{% code-tabs %}
-{% code-tabs-item title="9cc.c" %}
+{% tabs %}
+{% tab title="9cc.c" %}
 ```c
-#include <stdio.h>
-#include <stdlib.h>
-
-int main(int argc, char **argv) {
-  if (argc != 2) {
-    fprintf(stderr, "引數數量錯誤\n");
-    return 1;
-  }
-
-  printf(".intel_syntax noprefix\n");
-  printf(".global main\n");
-  printf("main:\n");
-  printf("  mov rax, %d\n", atoi(argv[1]));
-  printf("  ret\n");
-  return 0;
-}
+#include <stdio.h>#include <stdlib.h>int main(int argc, char **argv) {  if (argc != 2) {    fprintf(stderr, "引數數量錯誤\n");    return 1;  }  printf(".intel_syntax noprefix\n");  printf(".global main\n");  printf("main:\n");  printf("  mov rax, %d\n", atoi(argv[1]));  printf("  ret\n");  return 0;}
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 建立一個名為 9cc 的資料夾，把上面的程式碼存成 9cc.c 這個檔案放在資料夾內。然後照以下的指令執行 9cc 確認其運作：
 
 ```text
-$ gcc -o 9cc 9cc.c
-$ ./9cc 123 > tmp.s
+$ gcc -o 9cc 9cc.c$ ./9cc 123 > tmp.s
 ```
 
 第1行是編譯 9cc.c 做出可執行的 9cc 檔案。第二行是輸入123給 9cc 來輸出組合語言，然後把結果寫進 tmp.s 這個檔案裡。現在來看看 tmp.s 的內容：
 
 ```text
-$ cat tmp.s
-.intel_syntax noprefix
-.global main
-main:
-  mov rax, 123
-  ret
+$ cat tmp.s.intel_syntax noprefix.global mainmain:  mov rax, 123  ret
 ```
 
 輸出結果看來沒什麼問題。如果把這個組合語言檔給組譯器就可以輸出可執行檔了。
@@ -96,10 +63,7 @@ main:
 在 Unix 裡 cc（或 gcc）不只是 C/C++，同時也是很多語言的前端（front-end），會根據輸入檔案的副檔名來執行對應的編譯器或組譯器。所以，就像編譯 9cc 時一樣，把 .s 副檔名的組合語言檔案輸入給 gcc，就會執行組譯。以下就是執行組譯器輸出執行檔的範例：
 
 ```text
-$ gcc -o tmp tmp.s
-$ ./tmp
-$ echo $?
-123
+$ gcc -o tmp tmp.s$ ./tmp$ echo $?123
 ```
 
 在 shell 中可以用`$?`來使用前一個指令的結束碼。在上面的例子中，顯示和我們給 9cc 的123一致的結果，也就代表程式有正常運作。讀者也試著在123以外從0~255的範圍內輸入看看（Unix 的程式結束碼的範圍為0~255），實際確認看看 9cc 正常運作的結果。
@@ -112,76 +76,30 @@ $ echo $?
 
 以下就是名為 test.sh 的測試用 shell 腳本。shell 函式`try`會從引數中把輸入值和預期的結果兩個引數抓下來、把9cc的結果拿去組譯、把結果和期待的值做比較。在這個 shell 腳本中，定義完`try`之後，會用0和42兩個值來確認是否有正常編譯：
 
-{% code-tabs %}
-{% code-tabs-item title="test.sh" %}
+{% tabs %}
+{% tab title="test.sh" %}
 ```bash
-#!/bin/bash
-try() {
-  expected="$1"
-  input="$2"
-
-  ./9cc "$input" > tmp.s
-  gcc -o tmp tmp.s
-  ./tmp
-  actual="$?"
-
-  if [ "$actual" = "$expected" ]; then
-    echo "$input => $actual"
-  else
-    echo "$input => $expected expected, but got $actual"
-    exit 1
-  fi
-}
-
-try 0 0
-try 42 42
-
-echo OK
+#!/bin/bashtry() {  expected="$1"  input="$2"  ./9cc "$input" > tmp.s  gcc -o tmp tmp.s  ./tmp  actual="$?"  if [ "$actual" = "$expected" ]; then    echo "$input => $actual"  else    echo "$input => $expected expected, but got $actual"    exit 1  fi}try 0 0try 42 42echo OK
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 請把上述內容存成 test.sh，並下`chmod a+x test.sh`來追加執行權限，然後實際執行 test.sh 看看。如果沒有出現什麼錯誤的話，如下最後 test.sh 會顯示 OK 並結束：
 
 ```text
-$ ./test.sh
-0 => 0
-42 => 42
-OK
+$ ./test.sh0 => 042 => 42OK
 ```
 
 如果有發生錯誤的話，test.sh 不會顯示 OK，而是會顯示失敗的測試預期值和實際上的結果：
 
 ```text
-$ ./test.sh
-0 => 0
-42 expected, but got 123
+$ ./test.sh0 => 042 expected, but got 123
 ```
 
 想要用測試腳本來除錯的時候，下`bash -x`來執行 test.sh 看看。加上`-x`參數時，`bash`會顯示如下的執行紀錄：
 
 ```text
-$ bash -x test.sh
-+ try 0 0
-+ expected=0
-+ input=0
-+ gcc -o 9cc 9cc.c
-+ ./9cc 0
-+ gcc -o tmp tmp.s
-+ ./tmp
-+ actual=0
-+ '[' 0 '!=' 0 ']'
-+ try 42 42
-+ expected=42
-+ input=42
-+ gcc -o 9cc 9cc.c
-+ ./9cc 42
-+ gcc -o tmp tmp.s
-+ ./tmp
-+ actual=42
-+ '[' 42 '!=' 42 ']'
-+ echo OK
-OK
+$ bash -x test.sh+ try 0 0+ expected=0+ input=0+ gcc -o 9cc 9cc.c+ ./9cc 0+ gcc -o tmp tmp.s+ ./tmp+ actual=0+ '[' 0 '!=' 0 ']'+ try 42 42+ expected=42+ input=42+ gcc -o 9cc 9cc.c+ ./9cc 42+ gcc -o tmp tmp.s+ ./tmp+ actual=42+ '[' 42 '!=' 42 ']'+ echo OKOK
 ```
 
 我們在本書所使用的「測試框架」就只是這樣一個 shell 腳本而已。這腳本和 JUnit 等正式的測試框架比起來看起來可能是過於簡單了，但是就是這個簡單的腳本，和 9cc 本體的簡單程度才能取得平衡，所以簡單點才剛剛好。單元測試的重點，其實就只是自己執行自己寫的程式碼、機械化地比較執行結果而已。所以不要想太難，重要的是執行測試。
@@ -192,23 +110,13 @@ OK
 
 `make`會在其執行的目錄底下，尋找名為 Makefile 的檔案並讀取，然後執行該檔案裏面的指令。Makefile 由以冒號結尾的規則，和規則所對應的指令列們構成。底下的 Makefile 就是這一步想要執行的指令的自動化：
 
-{% code-tabs %}
-{% code-tabs-item title="Makefile" %}
+{% tabs %}
+{% tab title="Makefile" %}
 ```text
-CFLAGS=-std=c11 -g -static
-
-9cc: 9cc.c
-
-test: 9cc
-        ./test.sh
-
-clean:
-        rm -f 9cc *.o *~ tmp*
-
-.PHONY: test clean
+CFLAGS=-std=c11 -g -static9cc: 9cc.ctest: 9cc        ./test.shclean:        rm -f 9cc *.o *~ tmp*.PHONY: test clean
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 請把上述的檔案在 9cc.c 的同一個目錄底下存成名為 Makefile 的檔案。如此一來，就可以執行`make`來編出 9cc、執行`make test`來執行測試了。`make`可以知道檔案之間的相依性，所以每當修改 9cc.c 之後，不需要在`make test`前先執行`make`。只要`make`發現 9cc 比 9cc.c 舊，在執行測試前就會重編 9cc。
 
@@ -224,30 +132,24 @@ clean:
 
 git 可以在名為 .gitignore 的檔案中，寫要被排除在版本管理之外的檔名格式。在 9cc.c 的同一個目錄底下把地下的內容存成 .gitignore 來讓 git 能無視暫存檔案或編輯器的備份檔案：
 
-{% code-tabs %}
-{% code-tabs-item title=".gitignore" %}
+{% tabs %}
+{% tab title=".gitignore" %}
 ```text
-*~
-*.o
-tmp*
-9cc
+*~*.otmp*9cc
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 第一次使用 git 的讀者們，請告訴 git 你的名字和 email 信箱吧，你跟 git 講的名字和信箱會顯示在 git commit 上。底下是以筆者的名字和信箱設定的範例，請讀者設定自己的名字和信箱：
 
 ```text
-$ git config --global user.name "Rui Ueyama"
-$ git config --global user.email "ruiu@cs.stanford.edu"
+$ git config --global user.name "Rui Ueyama"$ git config --global user.email "ruiu@cs.stanford.edu"
 ```
 
 要 commit 到 git 上，首先得先把變更的檔案以`git add`加入。因為這次是最初的 commit，首先先以`git init`新增一個 repository，然後再把至今為止所寫的所有檔案都以`git add`加入：
 
 ```text
-$ git init
-Initialized empty Git repository in /home/ruiu/9cc
-$ git add 9cc.c test.sh Makefile .gitignore
+$ git initInitialized empty Git repository in /home/ruiu/9cc$ git add 9cc.c test.sh Makefile .gitignore
 ```
 
 然後，執行`git commit`：
@@ -259,25 +161,7 @@ $ git commit -m "做出可以編譯一個整數的編譯器"
 `-m`是用來指定 commit message 的參數。沒有加上`-m`的話，git 會啟動編輯器。執行`git log -p`來確認 commit 有成功：
 
 ```text
-$ git log -p
-commit 0942e68a98a048503eadfee46add3b8b9c7ae8b1 (HEAD -> master)
-Author: Rui Ueyama <ruiu@cs.stanford.edu>
-Date:   Sat Aug 4 23:12:31 2018 +0000
-
-    做出可以編譯一個整數的編譯器
-
-diff --git a/9cc.c b/9cc.c
-new file mode 100644
-index 0000000..e6e4599
---- /dev/null
-+++ b/9cc.c
-@@ -0,0 +1,16 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+
-+int main(int argc, char **argv) {
-+  if (argc != 2) {
-...
+$ git log -pcommit 0942e68a98a048503eadfee46add3b8b9c7ae8b1 (HEAD -> master)Author: Rui Ueyama <ruiu@cs.stanford.edu>Date:   Sat Aug 4 23:12:31 2018 +0000    做出可以編譯一個整數的編譯器diff --git a/9cc.c b/9cc.cnew file mode 100644index 0000000..e6e4599--- /dev/null+++ b/9cc.c@@ -0,0 +1,16 @@+#include <stdio.h>+#include <stdlib.h>++int main(int argc, char **argv) {+  if (argc != 2) {...
 ```
 
 最後，把做好的 git repository 上傳到 Github 上吧。並沒有一定要上傳到 GitHub 的必要，但也沒有不上傳到 GitHub 的理由，但上傳到 GitHub 可以作為備份。要上傳到 GitHub 的話，先新增一個 repository（範例為以 rui314 帳號新增一個叫 9cc 的 repository），然後依下列指令把該 repository 作為 remote repository 加入：

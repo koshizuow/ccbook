@@ -3,11 +3,7 @@
 在 x86-64 我們使用`cmp`指令來進行比較。從堆疊裡彈出2個整數進行比較，如果相同的話就在 RAX 設定1否則設為0，組合語言程式如下：
 
 ```text
-pop rdi
-pop rax
-cmp rax, rdi
-sete al
-movzb rax, al
+pop rdipop raxcmp rax, rdisete almovzb rax, al
 ```
 
 這段程式雖然短，但內涵有點豐富，我們來一步一步看下去：
