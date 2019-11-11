@@ -12,7 +12,13 @@
 把優先順序分別對應到不同的終端符號，就可以用生成文法來表現優先順序。像`expr`和`mul`一樣的方法來思考，加上比較運算子的文法如下所示：
 
 ```text
-expr       = equalityequality   = relational ("==" relational | "!=" relational)*relational = add ("<" add | "<=" add | ">" add | ">=" add)*add        = mul ("+" mul | "-" mul)*mul        = unary ("*" unary | "/" unary)*unary      = ("+" | "-")? termterm       = num | "(" expr ")"
+expr       = equality
+equality   = relational ("==" relational | "!=" relational)*
+relational = add ("<" add | "<=" add | ">" add | ">=" add)*
+add        = mul ("+" mul | "-" mul)*
+mul        = unary ("*" unary | "/" unary)*
+unary      = ("+" | "-")? term
+term       = num | "(" expr ")"
 ```
 
 `equality`代表 `==`和 `!=`，`relational`代表`<`、`<=`、`>`、`>=`。這類非終端符號運用左結合運算子的分析模式，可以直接對應成函式。

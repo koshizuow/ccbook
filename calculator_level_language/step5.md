@@ -5,7 +5,32 @@
 {% tabs %}
 {% tab title="9cc.c" %}
 ```c
-int main(int argc, char **argv) {  if (argc != 2) {    fprintf(stderr, "引數數量錯誤\n");    return 1;  }  // 進行標記解析並分析  user_input = argv[1];  token = tokenize(user_input);  Node *node = expr();  // 輸出前半部份組合語言指令  printf(".intel_syntax noprefix\n");  printf(".global main\n");  printf("main:\n");  // 一邊爬抽象語法樹一邊產出指令  gen(node);  // 整個算式的結果應該留在堆疊頂部  // 將其讀到RAX作為函式的返回值  printf("  pop rax\n");  printf("  ret\n");  return 0;}
+int main(int argc,
+ char **argv) {
+  if (argc != 2) {
+    fprintf(stderr, "引數數量錯誤\n");
+    return 1;
+  }
+
+  // 進行標記解析並分析
+  user_input = argv[1];
+  token = tokenize(user_input);
+  Node *node = expr();
+
+  // 輸出前半部份組合語言指令
+  printf(".intel_syntax noprefix\n");
+  printf(".global main\n");
+  printf("main:\n");
+
+  // 一邊爬抽象語法樹一邊產出指令
+  gen(node);
+
+  // 整個算式的結果應該留在堆疊頂部
+  // 將其讀到RAX作為函式的返回值
+  printf("  pop rax\n");
+  printf("  ret\n");
+  return 0;
+}
 ```
 {% endtab %}
 {% endtabs %}
@@ -15,7 +40,9 @@ int main(int argc, char **argv) {  if (argc != 2) {    fprintf(stderr, "引數�
 {% tabs %}
 {% tab title="test.sh" %}
 ```bash
-try 47 "5+6*7"try 15 "5*(9-6)"try 4 "(3+5)/2"
+try 47 "5+6*7"
+try 15 "5*(9-6)"
+try 4 "(3+5)/2"
 ```
 {% endtab %}
 {% endtabs %}

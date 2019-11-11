@@ -9,7 +9,9 @@
 {% tabs %}
 {% tab title="" %}
 ```text
-expr = mul ("+" mul | "-" mul)*mul  = term ("*" term | "/" term)*term = num | "(" expr ")"
+expr = mul ("+" mul | "-" mul)*
+mul  = term ("*" term | "/" term)*
+term = num | "(" expr ")"
 ```
 {% endtab %}
 {% endtabs %}
@@ -21,7 +23,24 @@ expr = mul ("+" mul | "-" mul)*mul  = term ("*" term | "/" term)*term = num | "
 {% tabs %}
 {% tab title="" %}
 ```c
-// 抽象語法樹結點的種類typedef enum {  ND_ADD, // +  ND_SUB, // -  ND_MUL, // *  ND_DIV, // /  ND_NUM, // 整數} NodeKind;typedef struct Node Node;// 抽象語法樹結點的結構struct Node {  NodeKind kind; // 結點的型態  Node *lhs;     // 左邊  Node *rhs;     // 右邊  int val;       // kind只在ND_NUM時使用};
+// 抽象語法樹結點的種類
+typedef enum {
+  ND_ADD, // +
+  ND_SUB, // -
+  ND_MUL, // *
+  ND_DIV, // /
+  ND_NUM, // 整數
+} NodeKind;
+
+typedef struct Node Node;
+
+// 抽象語法樹結點的結構
+struct Node {
+  NodeKind kind; // 結點的型態
+  Node *lhs;     // 左邊
+  Node *rhs;     // 右邊
+  int val;       // kind只在ND_NUM時使用
+};
 ```
 {% endtab %}
 {% endtabs %}
@@ -31,13 +50,37 @@ expr = mul ("+" mul | "-" mul)*mul  = term ("*" term | "/" term)*term = num | "
 接下來開始定義建立新結點的函式。在這個文法下，四則運算分為有左邊和右邊的2個運算子、和數值這兩種種類，我們配合這兩種種類的運算準備兩個函式：
 
 ```c
-Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {  Node *node = calloc(1, sizeof(Node));  node->kind = kind;  node->lhs = lhs;  node->rhs = rhs;  return node;}Node *new_node_num(int val) {  Node *node = calloc(1, sizeof(Node));  node->kind = ND_NUM;  node->val = val;  return node;}
+Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
+  Node *node = calloc(1, sizeof(Node));
+  node->kind = kind;
+  node->lhs = lhs;
+  node->rhs = rhs;
+  return node;
+}
+
+Node *new_node_num(int val) {
+  Node *node = calloc(1, sizeof(Node));
+  node->kind = ND_NUM;
+  node->val = val;
+  return node;
+}
 ```
 
 再來就用這些函數和資料結構來寫我們的分析器吧。`+`和`-`為左結合的運算子。底下為分析左結合運算子的函式：
 
 ```c
-Node *expr() {  Node *node = mul();  for (;;) {    if (consume('+'))      node = new_node(ND_ADD, node, mul());    else if (consume('-'))      node = new_node(ND_SUB, node, mul());    else      return node;  }}
+Node *expr() {
+  Node *node = mul();
+
+  for (;;) {
+    if (consume('+'))
+      node = new_node(ND_ADD, node, mul());
+    else if (consume('-'))
+      node = new_node(ND_SUB, node, mul());
+    else
+      return node;
+  }
+}
 ```
 
 `consume`是之前定義的函式，這個函式在下一個輸入串流中的標記和函式引數相符時，會前進一個標記並回傳為真。
@@ -47,7 +90,18 @@ Node *expr() {  Node *node = mul();  for (;;) {    if (consume('+'))      node =
 我們來接著定義`expr`中用到的`mul`函式。`*`或`/`也是左結合的演算子，所以我們用同樣的方式來寫。程式碼如下：
 
 ```c
-Node *mul() {  Node *node = term();  for (;;) {    if (consume('*'))      node = new_node(ND_MUL, node, term());    else if (consume('/'))      node = new_node(ND_DIV, node, term());    else      return node;  }}
+Node *mul() {
+  Node *node = term();
+
+  for (;;) {
+    if (consume('*'))
+      node = new_node(ND_MUL, node, term());
+    else if (consume('/'))
+      node = new_node(ND_DIV, node, term());
+    else
+      return node;
+  }
+}
 ```
 
 上述程式的函式間呼叫的關係，原原本本對應了`mul = term ("*" term | "/" term)*`這條生成規則。
@@ -55,7 +109,17 @@ Node *mul() {  Node *node = term();  for (;;) {    if (consume('*'))      node =
 最後我們來定義`term`函式。`term`所讀進的不是左結合的運算子，所以雖然不能照上述的方式來寫，我們可以用底下的`term`函式來描述`term = "(" expr ")" | num`這條生成規則：
 
 ```c
-Node *term() {  // 下一個標記如果是"("，則應該是"(" expr ")"  if (consume('(')) {    Node *node = expr();    expect(')');    return node;  }  // 否則應該為數值  return new_node_num(expect_number());}
+Node *term() {
+  // 下一個標記如果是"("，則應該是"(" expr ")"
+  if (consume('(')) {
+    Node *node = expr();
+    expect(')');
+    return node;
+  }
+
+  // 否則應該為數值
+  return new_node_num(expect_number());
+}
 ```
 
 好，看起來所有的函式都湊齊了，但這真的能分析標記列嗎？乍看之下可能不好懂，但是使用這些函式充份可以分析標記列。舉例來說我們來考慮`1+2*3`這個算式。

@@ -3,13 +3,34 @@
 到目前為止，我們做的編譯器在輸入的文法有錯誤時，只能知道有錯誤發生，但不知道在哪裡。這一步我們針對這個問題進行改良。具體來說，要顯示如下較為直覺的錯誤訊息：
 
 ```text
-$ ./9cc "1+3++" > tmp.s1+3++    ^ 不是數值$ ./9cc "1 + foo + 5" > tmp.s1 + foo + 5    ^ 標記解析失敗
+$ ./9cc "1+3++" > tmp.s
+1+3++
+    ^ 不是數值
+
+$ ./9cc "1 + foo + 5" > tmp.s
+1 + foo + 5
+    ^ 標記解析失敗
 ```
 
 要想能顯示這樣的錯誤訊息，必須在錯誤發生時，知道式發生在輸入的第幾個位元才行。為此，我們來把作為輸入程式的文字列存成變數 `user_input`，定義一個新的函式可以接受只到其中某一個位置的指標，並顯示錯誤訊息。程式碼如下：
 
 ```c
-// 輸入程式char *user_input;// 回報錯誤的位置void error_at(char *loc, char *fmt, ...) {  va_list ap;  va_start(ap, fmt);  int pos = loc - user_input;  fprintf(stderr, "%s\n", user_input);  fprintf(stderr, "%*s", pos, ""); // 輸出pos個空白  fprintf(stderr, "^ ");  vfprintf(stderr, fmt, ap);  fprintf(stderr, "\n");  exit(1);}
+// 輸入程式
+char *user_input;
+
+// 回報錯誤的位置
+void error_at(char *loc, char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+
+  int pos = loc - user_input;
+  fprintf(stderr, "%s\n", user_input);
+  fprintf(stderr, "%*s", pos, ""); // 輸出pos個空白
+  fprintf(stderr, "^ ");
+  vfprintf(stderr, fmt, ap);
+  fprintf(stderr, "\n");
+  exit(1);
+}
 ```
 
  `error_at`所接受的指標，會指向指向輸入文字列的某個位置。計算該指標和輸入的開頭的差，就知道錯誤發生的位置，然後就可以在該位置顯示一個醒目的`^`符號。

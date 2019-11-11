@@ -21,7 +21,8 @@ expr → num → "1"
 {% tabs %}
 {% tab title="10+5" %}
 ```text
-expr → num "+" num     → "10" "+" "5"
+expr → num "+" num
+     → "10" "+" "5"
 ```
 {% endtab %}
 {% endtabs %}
@@ -29,7 +30,8 @@ expr → num "+" num     → "10" "+" "5"
 {% tabs %}
 {% tab title="42-30+25" %}
 ```text
-expr → num "-" num "+" num     → "42" "-" "30" "+" "2"
+expr → num "-" num "+" num
+     → "42" "-" "30" "+" "2"
 ```
 {% endtab %}
 {% endtabs %}

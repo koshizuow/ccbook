@@ -7,7 +7,14 @@
 {% tabs %}
 {% tab title="tmp.s" %}
 ```text
-.intel_syntax noprefix.global mainmain:        mov rax, 5        add rax, 20        sub rax, 4        ret
+.intel_syntax noprefix
+.global main
+
+main:
+        mov rax, 5
+        add rax, 20
+        sub rax, 4
+        ret
 ```
 {% endtab %}
 {% endtabs %}
@@ -15,7 +22,10 @@
 上述的組合語言中，先以`mov`指令把 RAX 設成5，再把 RAX 加上20，最後從中減去4。在執行`ret`指令的時候 RAX 的值應該就是`5+20-4`，也就是21。實際執行來確認看看吧。把上述檔案存成 tmp.s 並組譯、執行看看：
 
 ```text
-$ gcc -o tmp tmp.s$ ./tmp$ echo $?21
+$ gcc -o tmp tmp.s
+$ ./tmp
+$ echo $?
+21
 ```
 
 如上所述，正確顯示21。
@@ -31,7 +41,42 @@ $ gcc -o tmp tmp.s$ ./tmp$ echo $?21
 {% tabs %}
 {% tab title="9cc.c" %}
 ```c
-#include <stdio.h>#include <stdlib.h>int main(int argc, char **argv) {  if (argc != 2) {    fprintf(stderr, "引數數量錯誤\n");    return 1;  }  char *p = argv[1];  printf(".intel_syntax noprefix\n");  printf(".global main\n");  printf("main:\n");  printf("  mov rax, %ld\n", strtol(p, &p, 10));  while (*p) {    if (*p == '+') {      p++;      printf("  add rax, %ld\n", strtol(p, &p, 10));      continue;    }    if (*p == '-') {      p++;      printf("  sub rax, %ld\n", strtol(p, &p, 10));      continue;    }    fprintf(stderr, "預料之外的文字: '%c'\n", *p);    return 1;  }  printf("  ret\n");  return 0;}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv) {
+  if (argc != 2) {
+    fprintf(stderr, "引數數量錯誤\n");
+    return 1;
+  }
+
+  char *p = argv[1];
+
+  printf(".intel_syntax noprefix\n");
+  printf(".global main\n");
+  printf("main:\n");
+  printf("  mov rax, %ld\n", strtol(p, &p, 10));
+
+  while (*p) {
+    if (*p == '+') {
+      p++;
+      printf("  add rax, %ld\n", strtol(p, &p, 10));
+      continue;
+    }
+
+    if (*p == '-') {
+      p++;
+      printf("  sub rax, %ld\n", strtol(p, &p, 10));
+      continue;
+    }
+
+    fprintf(stderr, "預料之外的文字: '%c'\n", *p);
+    return 1;
+  }
+
+  printf("  ret\n");
+  return 0;
+}
 ```
 {% endtab %}
 {% endtabs %}
@@ -43,7 +88,15 @@ $ gcc -o tmp tmp.s$ ./tmp$ echo $?21
 接下來趕緊來試試看改造版的編譯器吧。一更新 9cc.c，只要下`make`指令就可以產生出新的 9cc 執行檔。以下為執行的範例：
 
 ```text
-$ make$ ./9cc '5+20-4'.intel_syntax noprefix.global mainmain:  mov rax, 5  add rax, 20  sub rax, 4  ret
+$ make
+$ ./9cc '5+20-4'
+.intel_syntax noprefix
+.global main
+main:
+  mov rax, 5
+  add rax, 20
+  sub rax, 4
+  ret
 ```
 
 看來有順利輸出組合語言指令。為了測試新的功能，我們在 test.sh 加上新的1行測試：
@@ -59,7 +112,8 @@ $ make$ ./9cc '5+20-4'.intel_syntax noprefix.global mainmain:  mov rax, 5  add r
 完成到這裡，把至今為止的變更 commit 到 git 吧。執行以下指令來 commit：
 
 ```text
-$ git add test.sh 9cc.c$ git commit
+$ git add test.sh 9cc.c
+$ git commit
 ```
 
 執行`git commit`會開啟編輯器，請輸入「新增加法和減法」後儲存、關閉編輯器程式。接著請輸入 `git log -p`指令確認看看 commit 有順利完成。最後，執行`git push`把 commit 給 push 上 GitHub 後，這一步就完成了！

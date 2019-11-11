@@ -9,13 +9,31 @@
 接下來我們來看看操作堆疊的範例。試想以下的C程式碼：
 
 ```c
-int plus(int x, int y) {  return x + y;}int main() {  return plus(3, 4);}
+int plus(int x, int y) {
+  return x + y;
+}
+
+int main() {
+  return plus(3, 4);
+}
 ```
 
 而底下是與這個C程式碼對應的組合語言指令：
 
 ```text
-.intel_syntax noprefix.global plus, mainplus:        add rsi, rdi        mov rax, rsi        retmain:        mov rdi, 3        mov rsi, 4        call plus        ret
+.intel_syntax noprefix
+.global plus, main
+
+plus:
+        add rsi, rdi
+        mov rax, rsi
+        ret
+
+main:
+        mov rdi, 3
+        mov rsi, 4
+        call plus
+        ret
 ```
 
 第一行是指定組合語言文法的指令。由`.global`開始的第二行，是指定`main`和`plus`這兩個可見於程式全體（program scope），非檔案範圍（file scope）的函式的組合語言指令。（譯註：有關 program scope 和 file scope，請參考C語言的相關資料。）現階段可以暫時忽略沒有關係。
