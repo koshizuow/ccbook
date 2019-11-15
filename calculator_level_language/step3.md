@@ -17,8 +17,7 @@ $ ./9cc '5 - 3' > tmp.s
 
 以下是稍微變得長了點的程式碼，加入了標記解析器的改良版編譯器：
 
-{% tabs %}
-{% tab title="9cc.c" %}
+{% code title="9cc.c" %}
 ```c
 #include <ctype.h>
 #include <stdarg.h>
@@ -162,8 +161,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 程式碼有將近150行並不算短，但並沒有特別難以理解之處，照順序讀下來想理解應該不成問題。
 
@@ -176,13 +174,11 @@ int main(int argc, char **argv) {
 
 這個改良版的編譯器理應可以跳過空白，我們如下在測試中追加1行到 test.sh 中：
 
-{% tabs %}
-{% tab title="test.sh" %}
+{% code title="test.sh" %}
 ```bash
 try 41 " 12 + 34 - 5 "
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 Unix 的程式結束碼必須為0~255的數字，在寫測試時，請讓算式的結果落在0~255內。
 

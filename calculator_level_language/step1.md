@@ -50,8 +50,7 @@ mov %rax, -8(rbp, rcx, 4)    // AT&T
 
 編譯器的輸入通常都是檔案，但現階段處理開關檔還稍嫌麻煩，我們直接從指令的第1引數來輸入程式碼。以下是從第1引數取值，再把其加到固定的組合語言指令裡的簡單C程式碼：
 
-{% tabs %}
-{% tab title="9cc.c" %}
+{% code title="9cc.c" %}
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -70,8 +69,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 建立一個名為 9cc 的資料夾，把上面的程式碼存成 9cc.c 這個檔案放在資料夾內。然後照以下的指令執行 9cc 確認其運作：
 
@@ -112,8 +110,7 @@ $ echo $?
 
 以下就是名為 test.sh 的測試用 shell 腳本。shell 函式`try`會從引數中把輸入值和預期的結果兩個引數抓下來、把9cc的結果拿去組譯、把結果和期待的值做比較。在這個 shell 腳本中，定義完`try`之後，會用0和42兩個值來確認是否有正常編譯：
 
-{% tabs %}
-{% tab title="test.sh" %}
+{% code title="test.sh" %}
 ```bash
 #!/bin/bash
 try() {
@@ -138,8 +135,7 @@ try 42 42
 
 echo OK
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 請把上述內容存成 test.sh，並下`chmod a+x test.sh`來追加執行權限，然後實際執行 test.sh 看看。如果沒有出現什麼錯誤的話，如下最後 test.sh 會顯示 OK 並結束：
 
@@ -192,8 +188,7 @@ OK
 
 `make`會在其執行的目錄底下，尋找名為 Makefile 的檔案並讀取，然後執行該檔案裏面的指令。Makefile 由以冒號結尾的規則，和規則所對應的指令列們構成。底下的 Makefile 就是這一步想要執行的指令的自動化：
 
-{% tabs %}
-{% tab title="Makefile" %}
+{% code title="Makefile" %}
 ```text
 CFLAGS=-std=c11 -g -static
 
@@ -207,8 +202,7 @@ clean:
 
 .PHONY: test clean
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 請把上述的檔案在 9cc.c 的同一個目錄底下存成名為 Makefile 的檔案。如此一來，就可以執行`make`來編出 9cc、執行`make test`來執行測試了。`make`可以知道檔案之間的相依性，所以每當修改 9cc.c 之後，不需要在`make test`前先執行`make`。只要`make`發現 9cc 比 9cc.c 舊，在執行測試前就會重編 9cc。
 
@@ -224,16 +218,14 @@ clean:
 
 git 可以在名為 .gitignore 的檔案中，寫要被排除在版本管理之外的檔名格式。在 9cc.c 的同一個目錄底下把地下的內容存成 .gitignore 來讓 git 能無視暫存檔案或編輯器的備份檔案：
 
-{% tabs %}
-{% tab title=".gitignore" %}
+{% code title=".gitignore" %}
 ```text
 *~
 *.o
 tmp*
 9cc
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 第一次使用 git 的讀者們，請告訴 git 你的名字和 email 信箱吧，你跟 git 講的名字和信箱會顯示在 git commit 上。底下是以筆者的名字和信箱設定的範例，請讀者設定自己的名字和信箱：
 

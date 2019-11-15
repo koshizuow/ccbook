@@ -4,8 +4,7 @@
 
 像`5+20-4`這樣的算式，也可以在編譯時先算好，然後把結果的21塞進組合語言指令內，但那就不是編譯而是像直譯（interpret）了，所以應該要輸出可以在執行時計算加減法的組合語言指令。加法和減法的組合語言指令分別是`add`和`sub`。`add`會讀進兩個暫存器的值，執行加法後把結果寫回第1引數的暫存器內。`sub`和`add`基本上一樣，只是執行的是減法。使用這些指令，我們就可以編譯`5+20-4`為：
 
-{% tabs %}
-{% tab title="tmp.s" %}
+{% code title="tmp.s" %}
 ```text
 .intel_syntax noprefix
 .global main
@@ -16,8 +15,7 @@ main:
         sub rax, 4
         ret
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 上述的組合語言中，先以`mov`指令把 RAX 設成5，再把 RAX 加上20，最後從中減去4。在執行`ret`指令的時候 RAX 的值應該就是`5+20-4`，也就是21。實際執行來確認看看吧。把上述檔案存成 tmp.s 並組譯、執行看看：
 
@@ -38,8 +36,7 @@ $ echo $?
 
 根據這個定義直接用C語言實作如以下的程式：
 
-{% tabs %}
-{% tab title="9cc.c" %}
+{% code title="9cc.c" %}
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -78,8 +75,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 程式變得稍長了些，但前半部份和`ret`那行都是和之前一樣的。中間追加了把項讀入的程式碼。這是不是只讀進1個數字的程式，所以在讀進數字後，需要知道要讀到哪裡為止。如果用`atoi`的話，因為`atoi`不會回傳所讀進的文字數目，所以用`atoi`會不知道要從哪裡開始讀取項。因此這邊使用C語言標準的`strtol`函式來實作。
 
@@ -101,13 +97,11 @@ main:
 
 看來有順利輸出組合語言指令。為了測試新的功能，我們在 test.sh 加上新的1行測試：
 
-{% tabs %}
-{% tab title="test.sh" %}
+{% code title="test.sh" %}
 ```bash
 try 21 "5+20-4"
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 完成到這裡，把至今為止的變更 commit 到 git 吧。執行以下指令來 commit：
 

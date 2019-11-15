@@ -10,31 +10,25 @@ expr = num ("+" num | "-" num)*
 
 從`expr`開始展開，可以組合出任意的加減法的字串，舉例來說像`1`或`10+5`或`42-30+25`。底下為展開式：
 
-{% tabs %}
-{% tab title="1" %}
+{% code title="1" %}
 ```text
 expr → num → "1"
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
-{% tabs %}
-{% tab title="10+5" %}
+{% code title="10+5" %}
 ```text
 expr → num "+" num
      → "10" "+" "5"
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
-{% tabs %}
-{% tab title="42-30+25" %}
+{% code title="42-30+25" %}
 ```text
 expr → num "-" num "+" num
      → "42" "-" "30" "+" "2"
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 這樣的展開順序不只可以用箭頭表達，也可以用樹來表示。上列算式的語法樹如以下所示：
 

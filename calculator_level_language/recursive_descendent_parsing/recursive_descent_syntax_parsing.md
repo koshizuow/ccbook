@@ -6,22 +6,19 @@
 
 舉例來說想想四則運算的文法。底下是剛剛的四則運算文法：
 
-{% tabs %}
-{% tab title="" %}
+{% code title="" %}
 ```text
 expr = mul ("+" mul | "-" mul)*
 mul  = term ("*" term | "/" term)*
 term = num | "(" expr ")"
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 用遞迴下降分析法來寫分析器的基本策略是，把非終端符號和函式一一對應。於是，分析器有`expr`、`mul`、`num`這3個函式。這幾個函式，會負責解析和它們名字一樣規則的標記列。
 
 我們來考慮具體的程式碼。給分析器的輸入是標記列。因為我們想要用分析器建回抽象語法樹，我們要來定義抽象語法樹結點（node）的型態。底下程式碼描述結點的型態：
 
-{% tabs %}
-{% tab title="" %}
+{% code title="" %}
 ```c
 // 抽象語法樹結點的種類
 typedef enum {
@@ -42,8 +39,7 @@ struct Node {
   int val;       // kind只在ND_NUM時使用
 };
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
 `lhs`和`rhs`代表 left-hand side 和 right-hand side，也就是左邊和右邊的意思。
 
