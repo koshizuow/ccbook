@@ -59,5 +59,5 @@ try 4 "(3+5)/2"
 
 > [http://www.drdobbs.com/cpp/increasing-compiler-speed-by-over-75/240158941](http://www.drdobbs.com/cpp/increasing-compiler-speed-by-over-75/240158941) （連結已失效）
 >
-> * DMD does memory allocation in a bit of a sneaky way. Since compilers are short-lived programs, and speed is of the essence, DMD just mallocs away, and never frees.
+> > DMD does memory allocation in a bit of a sneaky way. Since compilers are short-lived programs, and speed is of the essence, DMD just mallocs away, and never frees.
 

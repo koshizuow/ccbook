@@ -174,5 +174,23 @@ ret
 #### 小知識：堆疊的成長方向
 
 x86-64 的堆疊，如上所述是由大往小的方向成長。是不是感覺方向好像反了，堆疊向上成長似乎比較自然，到底為什麼會設繼承堆疊向下成長呢？
+
+其實堆疊在技術上不一定要往下長。雖然實際上主流的 CPU 和 ABI 是把堆疊的起點設在高的位址向下成長，但也有極少數的架構堆疊是反方向長的。舉例來說8051微控制器、PA-RISC 的 ABI（註1），還有 Multics（註2） 等堆疊都是往高位址方向成長的。
+
+但是，其實堆疊向下成長，並不是不自然的問題設計。
+
+剛開機時，CPU 從全白的狀態開始執行程式時，開始執行的位址一般來說是由 CPU 規格所決定的。常見的設計中，CPU 會從像0之類的低位址開始執行。如此，一般程式的指令就會放在較低的位址。為了避免堆疊和程式指令重疊到，儘可能將兩者離的愈遠愈好，就會把堆疊往高位址擺，設計程記憶體位址空間是往中間成長。於是，堆疊就變成往下成長了。
+
+當然，能再想出和上述 CPU 不同的設計，讓堆疊向上成長變成比較自然的配置。但老實說這個問題兩種方法都可行，實際上在業界普遍的認知中，機器的堆疊是就是向下成長的。
 {% endhint %}
+
+> 1. [https://parisc.wiki.kernel.org/images-parisc/b/b2/Rad\_11\_0\_32.pdf](https://parisc.wiki.kernel.org/images-parisc/b/b2/Rad_11_0_32.pdf) The 32-bit PA-RISC run-time architecture document, v. 1.0 for HP-UX 11.0, 2.2.3章
+>
+>    > When a process is initiated by the operating system, a virtual address range is allocated for that process to be used for the call stack, and the stack pointer \(GR 30\) is initialized to point to the low end of this range. As procedures are called, the stack pointer is incremented to allow the called procedure frame to exist at the address below the stack pointer. When procedures are exited, the stack pointer is decremented by the same amount.
+>
+> 2. [https://www.acsac.org/2002/papers/classic-multics.pdf](https://www.acsac.org/2002/papers/classic-multics.pdf)
+>
+>    > Thirty Years Later: Lessons from the Multics Security Evaluation, "Third, stacks on the Multics processors grew in the positive direction, rather than the negative direction. This meant that if you actually accomplished a buffer overflow, you would be overwriting unused stack frames, rather than your own return pointer, making exploitation much more difficult.
+
+
 
