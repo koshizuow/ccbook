@@ -13,5 +13,13 @@ enum {
 } TokenKind;
 ```
 
+修改標記解析器，讓其可以對小寫英文字母建立`TK_IDENT`型的標記。只要對標記解析器加上如下的`if`敘述即可：
 
+```c
+if ('a' <= *p && *p <= 'z') {
+  cur = new_token(TK_IDENT, cur, p++);
+  cur->len = 1;
+  continue;
+}
+```
 
