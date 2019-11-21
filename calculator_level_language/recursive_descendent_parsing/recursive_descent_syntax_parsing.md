@@ -36,7 +36,7 @@ struct Node {
   NodeKind kind; // 結點的型態
   Node *lhs;     // 左邊
   Node *rhs;     // 右邊
-  int val;       // kind只在ND_NUM時使用
+  int val;       // 只在kind為ND_NUM時使用
 };
 ```
 {% endcode %}

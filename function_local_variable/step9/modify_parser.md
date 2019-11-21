@@ -53,5 +53,28 @@ void program() {
 }
 ```
 
+抽象語法樹也需要能代表「表示區域變數的結點」。為此，將區域變數這個新的型態作為結點的新成員加入。應該變得像會如下範例所示。此資料結構中，分析器遇到識別符號標記會做出`ND_LVAR`型的結點回傳。
 
+```c
+// 抽象語法樹結點的種類
+typedef enum {
+  ND_ADD,  // +
+  ND_SUB,  // -
+  ND_MUL,  // *
+  ND_DIV,  // /
+  ND_LVAR, // 區域變數
+  ND_NUM,  // 整數
+} NodeKind;
+
+typedef struct Node Node;
+
+// 抽象語法樹結點的結構
+struct Node {
+  NodeKind kind; // 結點的型態
+  Node *lhs;     // 左邊
+  Node *rhs;     // 右邊
+  int val;       // 只在kind為ND_NUM時使用
+  int offset;    // 只在kind為ND_LVAR時使用
+};
+```
 
