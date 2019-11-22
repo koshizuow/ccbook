@@ -97,5 +97,26 @@ Node *primary() {
 
 {% hint style="info" %}
 #### 小知識：ASCII碼
+
+在ASCII碼中，以0~127的數值對應到不同文字。ASCII碼和文字的對應如下表所示：
+
+|  |  |  |  |  |  |  |  |  |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | NUL | SOH | STX | ETX | EOT | ENQ | ACK | BEL |
+| 8 | BS | HT | NL | VT | NP | CR | SO | SI |
+| 16 | DLE | DC1 | DC2 | DC3 | DC4 | NAK | SYN | ETB |
+| 24 | CAN | EM | SUB | ESC | FS | GS | RS | US |
+| 32 | sp | ! | " | \# | $ | % | & | ' |
+| 40 | \( | \) | \* | + | , | - | . | / |
+| 48 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| 56 | 8 | 9 | : | ; | &lt; | = | &gt; | ? |
+| 64 | @ | A | B | C | D | E | F | G |
+| 72 | H | I | J | K | L | M | N | O |
+| 80 | P | Q | R | S | T | U | V | W |
+| 88 | X | Y | Z | \[ | \ | \] | ^ | \_ |
+| 96 | \` | a | b | c | d | e | f | g |
+| 104 | h | i | j | k | l | m | n | o |
+| 112 | p | q | r | s | t | u | v | w |
+| 120 | x | y | z | { | \| | } | ~ | DEL |
 {% endhint %}
 
