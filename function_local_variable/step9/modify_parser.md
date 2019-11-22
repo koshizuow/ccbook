@@ -78,3 +78,24 @@ struct Node {
 };
 ```
 
+`offset`這個成員代表離基底指標的偏移量（離基底指標的距離）。現階段，變數`a`為 RBP-8、變數`b`為 RBP-16……如此，不同名字的區域變數有固定的位置，偏移量可以在語法分析的階段就決定好。以下為讀進識別符號回傳ND\_LVAR型結點的程式碼：
+
+```c
+Node *primary() {
+  ...
+
+  Token *tok = consume_ident();
+  if (tok) {
+    Node *node = calloc(1, sizeof(Node));
+    node->kind = ND_LVAR;
+    node->offset = (tok->str[0] - 'a' + 1) * 8;
+    return node;
+  }
+
+  ...
+```
+
+{% hint style="info" %}
+#### 小知識：ASCII碼
+{% endhint %}
+
