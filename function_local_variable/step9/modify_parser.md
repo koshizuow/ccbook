@@ -118,5 +118,11 @@ Node *primary() {
 | 104 | h | i | j | k | l | m | n | o |
 | 112 | p | q | r | s | t | u | v | w |
 | 120 | x | y | z | { | \| | } | ~ | DEL |
+
+0~31為控制符號。現在除了`NUL`和換行符號之外，幾乎沒有使用到這類控制符號的機會，這些控制符號成了佔據編碼表的最佳位置的無用存在，但是ASCII碼制定是在1963年，在當時，實際上是非常常用到這類控制符號的。在制定的時候，還有過比起放進小寫字母應該放進更多控制符號的提案（註）。
 {% endhint %}
+
+> [https://en.wikipedia.org/wiki/ASCII\#cite\_note-Mackenzie\_1980-1](https://en.wikipedia.org/wiki/ASCII#cite_note-Mackenzie_1980-1)
+>
+> > There was some debate at the time whether there should be more control characters rather than the lowercase alphabet.
 
