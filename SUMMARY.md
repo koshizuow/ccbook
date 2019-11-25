@@ -50,4 +50,5 @@
     * [堆疊上的變數空間](function_local_variable/step9/variable_area_on_stack.md)
     * [修改標記解析器](function_local_variable/step9/modify_tokenizer.md)
     * [修改分析器](function_local_variable/step9/modify_parser.md)
+    * [左邊值與右邊值](function_local_variable/step9/left_value_right_value.md)
 
