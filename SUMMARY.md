@@ -51,4 +51,5 @@
     * [修改標記解析器](function_local_variable/step9/modify_tokenizer.md)
     * [修改分析器](function_local_variable/step9/modify_parser.md)
     * [左邊值與右邊值](function_local_variable/step9/left_value_right_value.md)
+    * [從任意的位址取得其值](function_local_variable/step9/load_value_from_any_address.md)
 
