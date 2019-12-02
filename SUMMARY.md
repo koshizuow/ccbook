@@ -54,4 +54,5 @@
     * [從任意的記憶體位址取得其值](function_local_variable/step9/load_value_from_any_address.md)
     * [修改指令產生器](function_local_variable/step9/modify_code_generator.md)
     * [修改主函式](function_local_variable/step9/modify_main_function.md)
+  * [第10步：複數文字的區域變數](function_local_variable/step10.md)
 
