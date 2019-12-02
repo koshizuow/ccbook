@@ -53,4 +53,5 @@
     * [左邊值與右邊值](function_local_variable/step9/left_value_right_value.md)
     * [從任意的記憶體位址取得其值](function_local_variable/step9/load_value_from_any_address.md)
     * [修改指令產生器](function_local_variable/step9/modify_code_generator.md)
+    * [修改主函式](function_local_variable/step9/modify_main_function.md)
 
