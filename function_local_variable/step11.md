@@ -73,3 +73,22 @@ Node *stmt() {
 }
 ```
 
+`ND_RETURN`型的結點只有在這裡可以產生，所以在此我們不寫新的函式，而是直接在該處進行`malloc`並設定其值。
+
+最後修改指令產生器，讓其可以輸出對應`ND_RETURN`結點的合適指令。新的gen函式的一部份如下所示：
+
+```c
+void gen(Node *node) {
+  if (node->kind == ND_RETURN) {
+    gen(node->lhs);
+    printf("  pop rax\n");
+    printf("  mov rsp, rbp\n");
+    printf("  pop rbp\n");
+    printf("  ret\n");
+    return;
+  }
+  ...
+```
+
+
+
