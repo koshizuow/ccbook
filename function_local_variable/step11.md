@@ -68,7 +68,7 @@ Node *stmt() {
   }
 
   if (!consume(';'))
-    error_at(tokens[pos].str, "此標記不是';'");
+    error_at(tokens[pos].str, "不是';'標記");
   return node;
 }
 ```
