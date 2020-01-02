@@ -53,5 +53,23 @@ if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
 }
 ```
 
+接著對分析器動手，讓其可以分析包含有`TK_RETURN`型的標記列。為此，我們先加上代表`return`的結點型態`ND_RETURN`。然後，修改讀取陳述的函式，讓其可以分析`return`句的文法。如往例，只要把文法直接對應到函式上，就可以成功分析文法了。新的`stmt`函式如下所示：
 
+```c
+Node *stmt() {
+  Node *node;
+
+  if (consume(TK_RETURN)) {
+    node = calloc(1, sizeof(Node));
+    node->kind = ND_RETURN;
+    node->lhs = expr();
+  } else {
+    node = expr();
+  }
+
+  if (!consume(';'))
+    error_at(tokens[pos].str, "此標記不是';'");
+  return node;
+}
+```
 
