@@ -28,5 +28,5 @@ error(s, p1, p2) {
 
 和現在我們的編譯器一樣，只確定函式名稱是否存在，並不會檢查引數的個數或型態是否正確。只要把預定數量的引數推進堆疊後，接著跳到函式本體後函式呼叫就算是成功了。
 
-`fout`是持有輸出目的地的檔案描述子（file descriptor）的全域變數。在當時，還沒有`fprintf`，如果不是想要輸出到標準輸出（standard out，C語言中的`stdout`）而是想輸出到標準錯誤輸出（standard error，C語言中的`stderr`）的話，就得透過全域變數來切換輸出的目弟弟。
+`fout`是持有輸出目的地檔案描述子（file descriptor）的全域變數。在當時，還沒有`fprintf`，如果不是想要輸出到標準輸出（standard out，C語言中的`stdout`）而是想輸出到標準錯誤輸出（standard error，C語言中的`stderr`）的話，就得透過全域變數來切換輸出的目的地。
 
