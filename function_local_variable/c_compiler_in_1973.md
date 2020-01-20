@@ -30,3 +30,7 @@ error(s, p1, p2) {
 
 `fout`是持有輸出目標檔案描述子（file descriptor）的全域變數。在當時，還沒有`fprintf`，如果不是想要輸出到標準輸出（standard out，C語言中的`stdout`）而是想輸出到標準錯誤輸出（standard error，C語言中的`stderr`）的話，就得透過全域變數來切換輸出的目標。
 
+`error`裡呼叫了2次`printf`。第2次的`printf`除了格式化的次串之外還傳了2個值。如此一來，在錯誤訊息只取第1個值時該怎麼辦呢？
+
+
+
