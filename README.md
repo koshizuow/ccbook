@@ -10,7 +10,7 @@
 
 高　至賢（Jason Kao），於臺灣大學哲學系修得學士學位，後畢業於臺灣大學資訊網路與多媒體研究所，取得資訊工程碩士學位。
 
-曾任 RD，於新創公司偉薩科技（WASAI Technology）從事加速基因定序（genome sequence alignment）程式 BWA-MEM 的開發工作。現任職於 Qualcomm，負責 BSP 與作業系統的編譯與開發整合相關問題。
+曾任 RD，於新創公司偉薩科技（WASAI Technology）從事加速基因定序（genome sequence alignment）程式 BWA-MEM 與加速卡整合相關的開發工作。現任職於 Qualcomm，負責 BSP 與作業系統的編譯與開發整合相關問題。
 
 喜歡作業系統相關的領域，為了想要可以了解更多系統相關的知識和技術正在學習編譯器、作業系統和虛擬機器等。對日文稍有涉略，興趣是遊戲和音響。
 
