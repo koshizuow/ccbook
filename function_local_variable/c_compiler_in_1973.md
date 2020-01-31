@@ -69,5 +69,12 @@ char s[]; {
 
 {% hint style="info" %}
 #### 小知識：Rob Pike的程式設計5原則
+
+9cc 有受到 Rob Pike 對程式設計看法的影響。Rob Pike 是C語言作者 Dennis Ritchie 的前同事，也是Go語言的作者，他和 Unix 的作者 Ken Thompson 一起開發了 Unicode 的 UTF-8。
+
+底下引用 Rob Pike 的「程式設計5原則」（Rob Pike's 5 Rules of Programming）：
+
+1. 無法預期程式會花時間在哪個部份。瓶頸可能發生在出乎意料的地方，在了解哪部份是瓶頸之前，不應該預期哪部份會出現效能瓶頸，也不應該為了提升效能作最佳化。
+2. 
 {% endhint %}
 
